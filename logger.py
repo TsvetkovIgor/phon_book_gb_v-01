@@ -1,4 +1,42 @@
 from data_create import name_data, surname_data, phone_data, address_data
+import os
+import re
+
+def remove_old_indices(block, delimiter):
+    lines = block.strip().split(delimiter)
+    # Предполагаем, что индекс находится в первой строке блока и он состоит только из чисел
+    if re.match(r'^\d+$', lines[0]):
+        return delimiter.join(lines[1:])
+    return block.strip()
+
+def enumerate_and_save_data(file_name, delimiter='\n'):
+    if not os.path.exists(file_name):
+        print(f"Файл {file_name} не найден.")
+        return
+    
+    with open(file_name, 'r', encoding='utf-8') as f:
+        data = f.read()
+    
+    blocks = data.strip().split('\n\n')
+    enumerated_blocks = []
+
+    for index, block in enumerate(blocks):
+        if block.strip():  # Игнорируем пустые блоки
+            block = remove_old_indices(block, delimiter)
+            enumerated_block = f"{index + 1}{delimiter}{block}"
+            enumerated_blocks.append(enumerated_block)
+    
+    with open(file_name, 'w', encoding='utf-8') as f:
+        f.write('\n\n'.join(enumerated_blocks))
+        f.write('\n\n')  # Добавляем пустую строку в конце для разделения новых данных
+
+def process_files():
+    enumerate_and_save_data('data_first_variant.csv', delimiter='\n')
+    enumerate_and_save_data('data_second_variant.csv', delimiter=';')
+
+# Запуск функции
+process_files()
+
 
 # функция ввода данных
 def input_data():
