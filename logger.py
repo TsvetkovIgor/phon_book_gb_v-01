@@ -37,7 +37,6 @@ def process_files():
 # Запуск функции
 process_files()
 
-
 # функция ввода данных
 def input_data():
     name = name_data() # функция имя
@@ -45,13 +44,13 @@ def input_data():
     phone = phone_data() # функция телефон
     address = address_data() # функция адрес
     var = int(input(f"В каком формате записать данные \n\n"
-    f"1 Вариант: \n"
-    f"{name}\n{surname}\n{phone}\n{address} \n\n"
-    f"2 Вариант: \n"
-    f" {name};{surname};{phone};{address} \n"
-    f"Выберите вариант: "))
+                    f"1 Вариант: \n"
+                    f"{name}\n{surname}\n{phone}\n{address} \n\n"
+                    f"2 Вариант: \n"
+                    f" {name}; {surname}; {phone}; {address} \n"
+                    f"Выберите вариант: "))
     
-        # обработчик ошибок
+    # обработчик ошибок
     while var != 1 and var != 2:
         print("Неправильный ввод ")
         var = int(input('Введите число '))
@@ -83,9 +82,20 @@ def print_data():
         data_second = f.readlines()
         print(*data_second)
 
-
 # функция удаления данных
-def delete_data(file_name, delimiter='\n'):
+def delete_data():
+    file_choice = int(input("Из какого файла удалить данные? \n 1 - data_first_variant.csv \n 2 - data_second_variant.csv \nВведите число: "))
+    
+    if file_choice == 1:
+        file_name = 'data_first_variant.csv'
+        delimiter = '\n'
+    elif file_choice == 2:
+        file_name = 'data_second_variant.csv'
+        delimiter = '; '
+    else:
+        print("Неправильный выбор файла")
+        return
+
     if not os.path.exists(file_name):
         print(f"Файл {file_name} не найден.")
         return
@@ -111,10 +121,3 @@ def delete_data(file_name, delimiter='\n'):
 
     # Перенумеруем оставшиеся блоки
     enumerate_and_save_data(file_name, delimiter)
-
-# Пример использования:
-# delete_data('data_first_variant.csv', delimiter='\n')
-# delete_data('data_second_variant.csv', delimiter='; ')
-
-#input_data()
-#print_data()

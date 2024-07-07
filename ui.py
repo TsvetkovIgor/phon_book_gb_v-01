@@ -1,4 +1,4 @@
-from logger import input_data, print_data
+from logger import input_data, print_data, delete_data
 
 def interface():
     print("Добрый день! Вы попали на специальный бот-справочник от GeekBrains! \n 1 - записать данные. \n 2 - вывод данных. \n 3 - удалить данные.")
