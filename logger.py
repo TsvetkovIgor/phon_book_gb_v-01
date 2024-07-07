@@ -32,7 +32,7 @@ def enumerate_and_save_data(file_name, delimiter='\n'):
 
 def process_files():
     enumerate_and_save_data('data_first_variant.csv', delimiter='\n')
-    enumerate_and_save_data('data_second_variant.csv', delimiter=';')
+    enumerate_and_save_data('data_second_variant.csv', delimiter='; ')
 
 # Запуск функции
 process_files()
@@ -48,7 +48,7 @@ def input_data():
     f"1 Вариант: \n"
     f"{name}\n{surname}\n{phone}\n{address} \n\n"
     f"2 Вариант: \n"
-    f"{name};{surname};{phone};{address} \n"
+    f" {name};{surname};{phone};{address} \n"
     f"Выберите вариант: "))
     
         # обработчик ошибок
@@ -62,7 +62,7 @@ def input_data():
     
     if var == 2: # делаем проверку
         with open('data_second_variant.csv', 'a', encoding='utf-8') as f: # открываем файл для записи
-            f.write(f"{name};{surname};{phone};{address} \n\n") # и добавляем запись
+            f.write(f"{name}; {surname}; {phone}; {address} \n\n") # и добавляем запись
 
 # функция вывода данных
 def print_data():
