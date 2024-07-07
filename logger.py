@@ -83,5 +83,38 @@ def print_data():
         data_second = f.readlines()
         print(*data_second)
 
+
+# функция удаления данных
+def delete_data(file_name, delimiter='\n'):
+    if not os.path.exists(file_name):
+        print(f"Файл {file_name} не найден.")
+        return
+
+    index_to_delete = int(input(f"Введите индекс записи для удаления из {file_name}: "))
+    
+    with open(file_name, 'r', encoding='utf-8') as f:
+        data = f.read()
+    
+    blocks = data.strip().split('\n\n')
+    updated_blocks = []
+
+    for block in blocks:
+        if block.strip():
+            lines = block.strip().split(delimiter)
+            if re.match(r'^\d+$', lines[0]) and int(lines[0]) == index_to_delete:
+                continue  # Пропускаем блок с указанным индексом
+            updated_blocks.append(block)
+    
+    with open(file_name, 'w', encoding='utf-8') as f:
+        f.write('\n\n'.join(updated_blocks))
+        f.write('\n\n')  # Добавляем пустую строку в конце для разделения новых данных
+
+    # Перенумеруем оставшиеся блоки
+    enumerate_and_save_data(file_name, delimiter)
+
+# Пример использования:
+# delete_data('data_first_variant.csv', delimiter='\n')
+# delete_data('data_second_variant.csv', delimiter='; ')
+
 #input_data()
 #print_data()
