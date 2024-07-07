@@ -72,7 +72,7 @@ def print_data():
         j = 0
         for i in range(len(data_first)):
             if data_first[i] == '\n' or i == len(data_first) - 1: # если равно \n или равно последней записи
-                data_first_list.append(''.join(data_first[j:i+1])) # преобразовав список в строку, добавляем элементы с сомощью срезов
+                data_first_list.append(''.join(data_first[j:i+1])) # преобразовав список в строку, добавляем элементы с помощью срезов
                 j = i
         
         print(''.join(data_first))
@@ -121,3 +121,56 @@ def delete_data():
 
     # Перенумеруем оставшиеся блоки
     enumerate_and_save_data(file_name, delimiter)
+
+# функция редактирования данных
+def edit_data():
+    file_choice = int(input("Из какого файла редактировать данные? \n 1 - data_first_variant.csv \n 2 - data_second_variant.csv \nВведите число: "))
+    
+    if file_choice == 1:
+        file_name = 'data_first_variant.csv'
+        delimiter = '\n'
+    elif file_choice == 2:
+        file_name = 'data_second_variant.csv'
+        delimiter = '; '
+    else:
+        print("Неправильный выбор файла")
+        return
+
+    if not os.path.exists(file_name):
+        print(f"Файл {file_name} не найден.")
+        return
+
+    index_to_edit = int(input(f"Введите индекс записи для редактирования из {file_name}: "))
+    
+    with open(file_name, 'r', encoding='utf-8') as f:
+        data = f.read()
+    
+    blocks = data.strip().split('\n\n')
+    updated_blocks = []
+
+    for block in blocks:
+        if block.strip():
+            lines = block.strip().split(delimiter)
+            if re.match(r'^\d+$', lines[0]) and int(lines[0]) == index_to_edit:
+                # Ввод новых данных
+                print(f"Текущая запись: {block}")
+                new_name = input("Введите новое имя: ")
+                new_surname = input("Введите новую фамилию: ")
+                new_phone = input("Введите новый телефон: ")
+                new_address = input("Введите новый адрес: ")
+
+                if delimiter == '\n':
+                    updated_block = f"{index_to_edit}\n{new_name}\n{new_surname}\n{new_phone}\n{new_address}"
+                else:
+                    updated_block = f"{index_to_edit}; {new_name}; {new_surname}; {new_phone}; {new_address}"
+                
+                updated_blocks.append(updated_block)
+            else:
+                updated_blocks.append(block)
+    
+    with open(file_name, 'w', encoding='utf-8') as f:
+        f.write('\n\n'.join(updated_blocks))
+        f.write('\n\n')  # Добавляем пустую строку в конце для разделения новых данных
+
+# Пример использования:
+# edit_data()
